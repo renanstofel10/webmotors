@@ -1,0 +1,1940 @@
+{
+	"info": {
+		"_postman_id": "563514fe-4c17-4492-8dc0-893d08ebff37",
+		"name": "Webmotors",
+		"description": "Collection destinada para testes do desafio webmotors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Marca",
+			"item": [
+				{
+					"name": "Consulta marca de veículos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaMake = JSON.parse(pm.environment.get(\"schemaMake\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema make\", function () {",
+									"    const returnValidate = ajv.validate(schemaMake, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaMake\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaMake = {",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"default\": 0,",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaMake\", JSON.stringify(schemaMake));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Make",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Make"
+							]
+						},
+						"description": "Request to make api"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Modelo",
+			"item": [
+				{
+					"name": "Consulta modelos da Chevrolet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaModel = {",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"MakeID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"MakeID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\":1,",
+									"                        \"maximum\":1 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 1,",
+									"                        \"maximum\": 3",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaModel\", JSON.stringify(schemaModel));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaModel = JSON.parse(pm.environment.get(\"schemaModel\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema modelo chevrolet\", function () {",
+									"    const returnValidate = ajv.validate(schemaModel, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaModel\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Model?MakeID={{chevrolet}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Model"
+							],
+							"query": [
+								{
+									"key": "MakeID",
+									"value": "{{chevrolet}}"
+								}
+							]
+						},
+						"description": "Request to model chevrolet api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta modelos da Honda",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaModel = {",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"MakeID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"MakeID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 2,",
+									"                        \"maximum\": 2 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 4,",
+									"                        \"maximum\": 6",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaModel\", JSON.stringify(schemaModel));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaModel = JSON.parse(pm.environment.get(\"schemaModel\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema modelo honda\", function () {",
+									"    const returnValidate = ajv.validate(schemaModel, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaModel\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Model?MakeID={{honda}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Model"
+							],
+							"query": [
+								{
+									"key": "MakeID",
+									"value": "{{honda}}"
+								}
+							]
+						},
+						"description": "Request to model honda api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta modelos da Ford",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaModel = {",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"MakeID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"MakeID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 3,",
+									"                        \"maximum\": 3 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 7,",
+									"                        \"maximum\": 8",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaModel\", JSON.stringify(schemaModel));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaModel = JSON.parse(pm.environment.get(\"schemaModel\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema modelo ford\", function () {",
+									"    const returnValidate = ajv.validate(schemaModel, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaModel\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Model?MakeID={{ford}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Model"
+							],
+							"query": [
+								{
+									"key": "MakeID",
+									"value": "{{ford}}"
+								}
+							]
+						},
+						"description": "Request to model ford api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta modelos - makeID inexistente",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaModel = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false",
+									"};",
+									"",
+									"pm.environment.set(\"schemaModel\", JSON.stringify(schemaModel));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaModel = JSON.parse(pm.environment.get(\"schemaModel\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema modelo inexistente\", function () {",
+									"    const returnValidate = ajv.validate(schemaModel, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaModel\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Model?MakeID=999999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Model"
+							],
+							"query": [
+								{
+									"key": "MakeID",
+									"value": "999999"
+								}
+							]
+						},
+						"description": "Request to model nonexistent api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta modelos - makeID inválido",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaError = {",
+									"    \"default\": {},",
+									"    \"required\": [",
+									"        \"Message\",",
+									"        \"MessageDetail\"",
+									"    ],",
+									"    \"properties\": {",
+									"        \"Message\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"MessageDetail\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"additionalProperties\": false",
+									"};",
+									"",
+									"pm.environment.set(\"schemaError\", JSON.stringify(schemaError));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaError = JSON.parse(pm.environment.get(\"schemaError\"));",
+									"const message = \"The request is invalid.\"",
+									"const MessageDetail = \"The parameters dictionary contains a null entry for parameter 'MakeID' of non-nullable type 'System.Int32' for method 'System.Collections.Generic.List`1[Swagger.Models.Model] Model(Int32)' in 'Swagger.Controllers.OnlineChallengeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.\"",
+									"",
+									"pm.test(\"Validar status 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validar mensagens body\", function () {",
+									"    pm.expect(jsonResponse.Message).to.be.equal(message);",
+									"    pm.expect(jsonResponse.MessageDetail).to.be.equal(MessageDetail);",
+									"});",
+									"",
+									"pm.test(\"Validar schema modelo inválido\", function () {",
+									"    const returnValidate = ajv.validate(schemaError, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaError\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Model?MakeID=A",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Model"
+							],
+							"query": [
+								{
+									"key": "MakeID",
+									"value": "A"
+								}
+							]
+						},
+						"description": "Request to model invalid api"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Versão",
+			"item": [
+				{
+					"name": "Consulta versões do Chevrolet Agile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão agile\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 1,",
+									"                        \"maximum\": 1 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 6,",
+									"                        \"maximum\": 10 ",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{agile}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{agile}}"
+								}
+							]
+						},
+						"description": "Request to version agile api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões do Chevrolet Astra",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão astra\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 2,",
+									"                        \"maximum\": 2 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 11,",
+									"                        \"maximum\": 15 ",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{astra}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{astra}}"
+								}
+							]
+						},
+						"description": "Request to version astra api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões do Chevrolet Onix",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão onix\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 3,",
+									"                        \"maximum\": 3 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 16,",
+									"                        \"maximum\": 20 ",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{onix}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{onix}}"
+								}
+							]
+						},
+						"description": "Request to version onix api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões do Honda City",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão city\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 4,",
+									"                        \"maximum\": 4 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 21,",
+									"                        \"maximum\": 25 ",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{city}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{city}}"
+								}
+							]
+						},
+						"description": "Request to version city api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões do Honda CRV",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão crv\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 5,",
+									"                        \"maximum\": 5 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 26,",
+									"                        \"maximum\": 30",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{crv}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{crv}}"
+								}
+							]
+						},
+						"description": "Request to version crv api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões do Honda Fit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão fit\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 6,",
+									"                        \"maximum\": 6 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 31,",
+									"                        \"maximum\": 35",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{fit}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{fit}}"
+								}
+							]
+						},
+						"description": "Request to version fit api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões do Ford Ecosport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão ecosport\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 7,",
+									"                        \"maximum\": 7 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 36,",
+									"                        \"maximum\": 40",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{ecosport}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{ecosport}}"
+								}
+							]
+						},
+						"description": "Request to version ecosport api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões do Ford Fussion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão Fussion\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ModelID\",",
+									"                    \"ID\",",
+									"                    \"Name\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ModelID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 8,",
+									"                        \"maximum\": 8 ",
+									"                    },",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"minimum\": 41,",
+									"                        \"maximum\": 45",
+									"                    },",
+									"                    \"Name\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID={{fussion}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "{{fussion}}"
+								}
+							]
+						},
+						"description": "Request to version fussion api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões - modelID inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVersion = JSON.parse(pm.environment.get(\"schemaVersion\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão inexistente\", function () {",
+									"    const returnValidate = ajv.validate(schemaVersion, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVersion\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVersion = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVersion\", JSON.stringify(schemaVersion));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID=999999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "999999"
+								}
+							]
+						},
+						"description": "Request to version nonexistent api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta versões - modelID inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaError = JSON.parse(pm.environment.get(\"schemaError\"));",
+									"const message = \"The request is invalid.\"",
+									"const MessageDetail = \"The parameters dictionary contains a null entry for parameter 'ModelID' of non-nullable type 'System.Int32' for method 'System.Collections.Generic.List`1[Swagger.Models.Version] Version(Int32)' in 'Swagger.Controllers.OnlineChallengeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.\"",
+									"",
+									"pm.test(\"Validar status 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validar mensagens body\", function () {",
+									"    pm.expect(jsonResponse.Message).to.be.equal(message);",
+									"    pm.expect(jsonResponse.MessageDetail).to.be.equal(MessageDetail);",
+									"});",
+									"",
+									"pm.test(\"Validar schema versão inválida\", function () {",
+									"    const returnValidate = ajv.validate(schemaError, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaError\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaError = {",
+									"    \"default\": {},",
+									"    \"required\": [",
+									"        \"Message\",",
+									"        \"MessageDetail\"",
+									"    ],",
+									"    \"properties\": {",
+									"        \"Message\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"MessageDetail\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"additionalProperties\": false",
+									"};",
+									"",
+									"pm.environment.set(\"schemaError\", JSON.stringify(schemaError));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Version?ModelID=A",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Version"
+							],
+							"query": [
+								{
+									"key": "ModelID",
+									"value": "A"
+								}
+							]
+						},
+						"description": "Request to version invalid api"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Veículos",
+			"item": [
+				{
+					"name": "Consulta  detalhes veículos por página",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVehicles = JSON.parse(pm.environment.get(\"schemaVehicles\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar quantidade de registros na página igual a 10\", function () {",
+									"    pm.expect(jsonResponse.length).to.be.equal(10);",
+									"});",
+									"",
+									"pm.test(\"Validar schema veículos\", function () {",
+									"    const returnValidate = ajv.validate(schemaVehicles, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVehicles\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVehicles = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false,",
+									"    \"items\": {",
+									"        \"anyOf\": [",
+									"            {",
+									"                \"type\": \"object\",",
+									"                \"default\": {},",
+									"                \"required\": [",
+									"                    \"ID\",",
+									"                    \"Make\",",
+									"                    \"Model\",",
+									"                    \"Version\",",
+									"                    \"Image\",",
+									"                    \"KM\",",
+									"                    \"Price\",",
+									"                    \"YearModel\",",
+									"                    \"YearFab\",",
+									"                    \"Color\"",
+									"                ],",
+									"                \"properties\": {",
+									"                    \"ID\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"default\": 0",
+									"                    },",
+									"                    \"Make\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"Model\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"Version\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"Image\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"KM\": {",
+									"                        \"type\": \"integer\",",
+									"                        \"default\": 0",
+									"                    },",
+									"                    \"Price\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"YearModel\": {",
+									"                        \"type\": \"integer\"",
+									"                    },",
+									"                    \"YearFab\": {",
+									"                        \"type\": \"integer\"",
+									"                    },",
+									"                    \"Color\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        ]",
+									"    }",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVehicles\", JSON.stringify(schemaVehicles));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Vehicles?Page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Vehicles"
+							],
+							"query": [
+								{
+									"key": "Page",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Request to vehicles api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta  detalhes veículos por página inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaVehicles = JSON.parse(pm.environment.get(\"schemaVehicles\"));",
+									"",
+									"pm.test(\"Validar status 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar quantidade de registros na página igual a 0\", function () {",
+									"    pm.expect(jsonResponse.length).to.be.equal(0);",
+									"});",
+									"",
+									"pm.test(\"Validar schema veículos\", function () {",
+									"    const returnValidate = ajv.validate(schemaVehicles, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaVehicles\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaVehicles = {",
+									"    \"type\": \"array\",",
+									"    \"default\": [],",
+									"    \"additionalItems\": false",
+									"};",
+									"",
+									"pm.environment.set(\"schemaVehicles\", JSON.stringify(schemaVehicles));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Vehicles?Page=999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Vehicles"
+							],
+							"query": [
+								{
+									"key": "Page",
+									"value": "999"
+								}
+							]
+						},
+						"description": "Request to vehicles nonexistent api"
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta  detalhes veículos por página inválida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let Ajv = require('ajv');",
+									"ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"const jsonResponse = pm.response.json();",
+									"const schemaError = JSON.parse(pm.environment.get(\"schemaError\"));",
+									"const message = \"The request is invalid.\"",
+									"const MessageDetail = \"The parameters dictionary contains a null entry for parameter 'Page' of non-nullable type 'System.Int32' for method 'System.Collections.Generic.List`1[Swagger.Models.Vehicle] Vehicle(Int32)' in 'Swagger.Controllers.OnlineChallengeController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.\"",
+									"",
+									"pm.test(\"Validar status 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validar mensagens body\", function () {",
+									"    pm.expect(jsonResponse.Message).to.be.equal(message);",
+									"    pm.expect(jsonResponse.MessageDetail).to.be.equal(MessageDetail);",
+									"});",
+									"",
+									"pm.test(\"Validar schema veículos inválido\", function () {",
+									"    const returnValidate = ajv.validate(schemaError, jsonResponse);",
+									"    const jsonErrors = JSON.stringify(ajv.errors);",
+									"    pm.expect(returnValidate, jsonErrors).to.be.true;",
+									"});",
+									"",
+									"pm.environment.unset(\"schemaError\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schemaError = {",
+									"    \"default\": {},",
+									"    \"required\": [",
+									"        \"Message\",",
+									"        \"MessageDetail\"",
+									"    ],",
+									"    \"properties\": {",
+									"        \"Message\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"MessageDetail\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"additionalProperties\": false",
+									"};",
+									"",
+									"pm.environment.set(\"schemaError\", JSON.stringify(schemaError));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/OnlineChallenge/Vehicles?Page=A",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"OnlineChallenge",
+								"Vehicles"
+							],
+							"query": [
+								{
+									"key": "Page",
+									"value": "A"
+								}
+							]
+						},
+						"description": "Request to vehicles invalid api"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
