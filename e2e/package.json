@@ -1,0 +1,44 @@
+{
+  "name": "e2e-tests",
+  "version": "1.0.0",
+  "description": "E2E using Appium Javascript",
+  "main": "index.js",
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "appium": "appium",
+    "appium-doctor": "appium-doctor",
+    "test-android": "PLATFORM=android cucumber-js --publish-quiet --tags @android -f usage -f @cucumber/pretty-formatter -f json:reports/android.json",
+    "report-android": "PLATFORM=android node reports/generateReport.js",
+    "test-ios": "PLATFORM=ios cucumber-js --publish-quiet --tags @ios -f usage -f @cucumber/pretty-formatter -f json:reports/ios.json",
+    "report-ios": "PLATFORM=ios node reports/generateReport.js"
+  },
+  "author": "Renan Stofel",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mocha": "^8.2.1",
+    "mochawesome": "^6.2.1",
+    "path": "^0.12.7",
+    "react": "^16.13.1",
+    "react-native": "^0.63.4"
+  },
+  "engines": {
+    "node": "^4.2.2",
+    "npm": "^3.6.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.3.1",
+    "@cucumber/pretty-formatter": "^1.0.0-alpha.1",
+    "appium": "^1.21.0",
+    "appium-doctor": "^1.16.0",
+    "babel-preset-react-native": "^4.0.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "cucumber-html-reporter": "^5.3.0",
+    "jest": "^26.6.3",
+    "wd": "^1.14.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
